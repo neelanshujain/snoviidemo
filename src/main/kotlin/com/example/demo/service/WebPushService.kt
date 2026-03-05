@@ -32,7 +32,6 @@ class WebPushService(
         pushService.setPrivateKey(privateKey)
         pushService.setSubject("mailto:test@example.com")
 
-        println("VAPID keys loaded successfully")
     }
 
     fun getPublicKey(): String {

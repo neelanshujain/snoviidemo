@@ -18,26 +18,23 @@ class NotificationController(
     @PostMapping("/subscribe")
     fun subscribe(@RequestBody subscription: PushSubscription) {
         val saved = repository.save(subscription)
+
         println("Saved subscription: ${saved.endpoint}")
         println("Total subscriptions: ${repository.count()}")
-        println("Received subscription: $subscription")
-
     }
 
     @PostMapping("/push")
-    fun pushNotification() {
+    fun pushNotification(): String {
 
         val subscriptions = repository.findAll()
         println("Subscribers found: ${subscriptions.size}")
 
         val payload = """
-            {
-                    "title": "Pop-Up",
-                    "message": "Message"
-            }
+        {
+          "title": "Pop-Up",
+          "message": "Message"
+        }
         """.trimIndent()
-
-
 
         subscriptions.forEach { subscription ->
             try {
@@ -49,5 +46,6 @@ class NotificationController(
             }
         }
 
+        return "Push attempted for ${subscriptions.size} subscribers"
     }
 }
